@@ -30,7 +30,7 @@
   "build": {
     "appId": "com.batttest.app",
     "productName": "Battery Tester",
-    "icon": "icon.ico",
+    "icon": "Logo.png",
     "files": [
       "main.js",
       "preload.js",
