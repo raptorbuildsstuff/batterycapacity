@@ -1,0 +1,54 @@
+{
+  "name": "battery-tester",
+  "version": "1.0.0",
+  "description": "Desktop companion app for ESP8266 battery discharge tester",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "postinstall": "node scripts/copy-chartjs.js",
+    "build": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bonjour-service": "^1.2.1",
+    "chart.js": "^4.4.7",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.batttest.app",
+    "productName": "Battery Tester",
+    "icon": "icon.ico",
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "lib/**/*",
+      "Logo.png",
+      "icon.ico"
+    ],
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    },
+    "extraResources": []
+  }
+}

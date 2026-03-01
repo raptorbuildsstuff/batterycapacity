@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self';">
+  <title>Battery Tester</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- ─── Top Bar ──────────────────────────────────────────────────── -->
+  <header id="topbar">
+    <div class="topbar-left">
+      <img src="../Logo.png" alt="" class="app-logo">
+      <span class="app-title">BATTERY TESTER</span>
+      <span id="connection-status" class="status-badge disconnected">DISCONNECTED</span>
+      <span id="reconnect-info" class="reconnect-info hidden"></span>
+    </div>
+    <div class="topbar-right">
+      <button id="btn-history" class="btn-icon" title="Test History (H)">&#9776;</button>
+      <button id="btn-connect-dialog" class="btn-icon" title="Connect">&#9881;</button>
+    </div>
+  </header>
+
+  <!-- ─── Grade Overlay ────────────────────────────────────────────── -->
+  <div id="grade-overlay" class="grade-overlay hidden">
+    <div class="grade-letter" id="grade-letter">A</div>
+    <div class="grade-label" id="grade-label">Excellent</div>
+  </div>
+
+  <!-- ─── Metrics Strip ────────────────────────────────────────────── -->
+  <div id="metrics-strip">
+    <div class="metric">
+      <span class="metric-label">VOLTAGE</span>
+      <span class="metric-value" id="m-voltage">-.---</span>
+      <span class="metric-unit">V</span>
+    </div>
+    <div class="metric">
+      <span class="metric-label">CURRENT</span>
+      <span class="metric-value" id="m-current">---.-</span>
+      <span class="metric-unit">mA</span>
+    </div>
+    <div class="metric">
+      <span class="metric-label">POWER</span>
+      <span class="metric-value" id="m-power">----.-</span>
+      <span class="metric-unit">mW</span>
+    </div>
+    <div class="metric">
+      <span class="metric-label">CAPACITY</span>
+      <span class="metric-value" id="m-capacity">---.-</span>
+      <span class="metric-unit">mAh</span>
+    </div>
+    <div class="metric">
+      <span class="metric-label">ENERGY</span>
+      <span class="metric-value" id="m-energy">---.-</span>
+      <span class="metric-unit">mWh</span>
+    </div>
+    <div class="metric">
+      <span class="metric-label">INT. R</span>
+      <span class="metric-value" id="m-intr">--.-</span>
+      <span class="metric-unit">m&#8486;</span>
+    </div>
+    <div class="metric">
+      <span class="metric-label">ELAPSED</span>
+      <span class="metric-value" id="m-elapsed">--:--</span>
+      <span class="metric-unit"></span>
+    </div>
+    <div class="metric">
+      <span class="metric-label">STATE</span>
+      <span class="metric-value state-value" id="m-state">IDLE</span>
+      <span class="metric-unit"></span>
+    </div>
+  </div>
+
+  <!-- ─── Main Content ─────────────────────────────────────────────── -->
+  <div id="main-content">
+    <div id="chart-container">
+      <canvas id="discharge-chart"></canvas>
+    </div>
+  </div>
+
+  <!-- ─── Controls Bar ─────────────────────────────────────────────── -->
+  <footer id="controls-bar">
+    <div class="controls-left">
+      <button id="btn-start" class="btn btn-primary" disabled>START (Space)</button>
+      <button id="btn-stop" class="btn btn-danger" disabled>STOP (Space)</button>
+      <button id="btn-reset" class="btn btn-secondary" disabled>RESET (R)</button>
+    </div>
+    <div class="controls-right">
+      <div class="rated-capacity-group">
+        <label class="rated-label" for="input-rated">RATED</label>
+        <input type="number" id="input-rated" class="rated-input" placeholder="0" min="0" max="99999" step="1">
+        <span class="rated-unit">mAh</span>
+      </div>
+      <button id="btn-export" class="btn btn-secondary" disabled>EXPORT CSV (E)</button>
+    </div>
+  </footer>
+
+  <!-- ─── History Sidebar ──────────────────────────────────────────── -->
+  <aside id="history-panel" class="history-panel hidden">
+    <div class="history-header">
+      <h3>TEST HISTORY</h3>
+      <button id="btn-close-history" class="btn-icon">&times;</button>
+    </div>
+    <div id="history-list" class="history-list">
+      <p class="history-empty">No saved tests</p>
+    </div>
+  </aside>
+
+  <!-- ─── Manual Connect Dialog ────────────────────────────────────── -->
+  <div id="connect-dialog" class="dialog-overlay hidden">
+    <div class="dialog">
+      <h3>CONNECT TO DEVICE</h3>
+
+      <div id="discovered-devices" class="device-list">
+        <p class="discovery-status">Searching for devices...</p>
+      </div>
+
+      <div class="dialog-divider">
+        <span>OR ENTER IP MANUALLY</span>
+      </div>
+
+      <div class="manual-connect">
+        <input type="text" id="input-ip" placeholder="192.168.1.100" spellcheck="false" autocomplete="off">
+        <input type="number" id="input-port" value="81" min="1" max="65535">
+        <button id="btn-manual-connect" class="btn btn-primary">CONNECT</button>
+      </div>
+
+      <div class="dialog-footer">
+        <button id="btn-disconnect" class="btn btn-danger" disabled>DISCONNECT</button>
+        <button id="btn-close-dialog" class="btn btn-secondary">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Keyboard Shortcuts Hint ──────────────────────────────────── -->
+  <div id="shortcuts-hint" class="shortcuts-hint">
+    Space: Start/Stop &nbsp;|&nbsp; R: Reset &nbsp;|&nbsp; E: Export &nbsp;|&nbsp; H: History
+  </div>
+
+  <script src="../lib/chart.umd.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
